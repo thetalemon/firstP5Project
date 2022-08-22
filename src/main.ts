@@ -24,8 +24,6 @@ const sketch = (p: p5) => {
     p.background(p.color('#add1ff'));
     if (p.mouseClicked) {
       p.noFill();
-      p.strokeWeight(1);
-      p.stroke(44, 115, 255, 100);
       rippleList.forEach((item, rippleIndex) => {
         if (item.diameterList.length === 0) {
           rippleList.splice(rippleIndex, 1);
@@ -37,10 +35,12 @@ const sketch = (p: p5) => {
             rippleList[rippleIndex].diameterList.splice(diameterIndex, 1);
             return;
           }
+          p.strokeWeight(1);
+          p.stroke(44, 115, 255, 100 - (diameter - 300));
           p.ellipse(item.center.x, item.center.y, diameter);
           rippleList[rippleIndex].diameterList[diameterIndex] = diameter + 5;
           if (0 === diameterIndex && randBoolean()) {
-            rippleList[rippleIndex].diameterList.unshift(diameter - 30);
+            rippleList[rippleIndex].diameterList.unshift(0);
           }
         });
       });
@@ -50,7 +50,7 @@ const sketch = (p: p5) => {
   p.mouseClicked = () => {
     rippleList.push({
       center: { x: p.mouseX, y: p.mouseY },
-      diameterList: [20],
+      diameterList: [0],
     });
   };
 };
